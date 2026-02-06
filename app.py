@@ -7,7 +7,7 @@ import os
 
 # إعداد Gemini API
 genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-3-flash-preview')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # قواعد الهوية البصرية المحسّنة
 BRAND_GUIDELINES = """
@@ -169,10 +169,14 @@ st.set_page_config(page_title="مدقق الهوية البصرية - ذرى", p
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
+/* الخلفية الرئيسية */
 .stApp{
     background: linear-gradient(135deg, #002825 0%, #1a3a41 50%, #285356 100%);
     font-family: 'Tajawal', sans-serif;
+    direction: rtl;
 }
+
+/* العناوين الرئيسية */
 h1{
     color: #cd9e2b !important;
     text-align: center;
@@ -181,17 +185,50 @@ h1{
     text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
     font-size: 2.8em !important;
 }
-.stMarkdown, .stFileUploader, .stRadio{
-    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(241,222,206,0.95) 100%);
+
+/* المحتوى الرئيسي - نص داكن على خلفية فاتحة */
+.main .block-container{
+    padding: 2rem 3rem;
+}
+
+/* البطاقات والمحتوى */
+.stMarkdown{
+    background: white;
     padding: 25px;
     border-radius: 20px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
     margin: 15px 0;
     border: 2px solid #cd9e2b;
+    color: #002825 !important;
 }
+
+/* النصوص داخل البطاقات */
+.stMarkdown p, .stMarkdown li, .stMarkdown div{
+    color: #002825 !important;
+}
+
+/* رفع الملفات */
+[data-testid="stFileUploader"]{
+    background: white !important;
+    border: 3px dashed #cd9e2b;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+}
+
+[data-testid="stFileUploader"] *{
+    color: #002825 !important;
+}
+
+[data-testid="stFileUploader"]:hover{
+    border-color: #daa929;
+    background: #f1dece !important;
+}
+
+/* الأزرار */
 .stButton>button{
     background: linear-gradient(135deg, #cd9e2b 0%, #daa929 50%, #cd9e2b 100%);
-    color: white;
+    color: white !important;
     font-weight: bold;
     border: none;
     border-radius: 15px;
@@ -199,55 +236,72 @@ h1{
     font-size: 18px;
     box-shadow: 0 6px 12px rgba(205, 158, 43, 0.4);
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    width: 100%;
 }
+
 .stButton>button:hover{
     background: linear-gradient(135deg, #daa929 0%, #cd9e2b 50%, #daa929 100%);
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(205, 158, 43, 0.6);
 }
-[data-testid="stSidebar"]{
-    background: linear-gradient(180deg, #002825 0%, #285356 50%, #56b4b6 100%);
-}
-[data-testid="stSidebar"] *{
-    color: white !important;
-}
-[data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3{
-    color: #cd9e2b !important;
-    border-bottom: 2px solid #cd9e2b;
-    padding-bottom: 10px;
-}
+
+/* العناوين الفرعية */
 h3{
     color: #002825 !important;
     border-bottom: 3px solid #cd9e2b;
     padding-bottom: 10px;
     margin-top: 25px;
+    margin-bottom: 15px;
     font-weight: bold;
+    text-align: right;
 }
-[data-testid="stFileUploader"]{
-    background: linear-gradient(135deg, white 0%, #f1dece 100%);
-    border: 3px dashed #cd9e2b;
-    border-radius: 20px;
-    padding: 40px;
-    text-align: center;
+
+/* الرسائل */
+.stSuccess, .stInfo, .stWarning, .stError{
+    background: white !important;
+    color: #002825 !important;
+    border-radius: 15px;
+    padding: 15px 20px;
 }
-[data-testid="stFileUploader"]:hover{
-    border-color: #daa929;
-    background: linear-gradient(135deg, #f1dece 0%, white 100%);
+
+/* Sidebar */
+[data-testid="stSidebar"]{
+    background: linear-gradient(180deg, #002825 0%, #285356 50%, #1a3a41 100%);
+    padding: 2rem 1rem;
 }
-.stMetric{
-    background: linear-gradient(135deg, rgba(205, 158, 43, 0.2) 0%, rgba(218, 169, 41, 0.3) 100%);
-    padding: 20px;
+
+[data-testid="stSidebar"] *{
+    color: white !important;
+}
+
+[data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3{
+    color: #cd9e2b !important;
+    border-bottom: 2px solid #cd9e2b;
+    padding-bottom: 10px;
+}
+
+[data-testid="stSidebar"] .stMetric{
+    background: rgba(205, 158, 43, 0.2);
+    padding: 15px;
     border-radius: 15px;
     border: 2px solid #cd9e2b;
+    text-align: center;
 }
-.stRadio > div{
-    background: transparent !important;
+
+/* الأعمدة */
+[data-testid="column"]{
+    padding: 0 10px;
 }
-.stRadio label{
-    font-size: 1.1em !important;
-    font-weight: 600 !important;
+
+/* الصور */
+img{
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* تحسين المحاذاة */
+.element-container{
+    text-align: right;
 }
 </style>""", unsafe_allow_html=True)
 
