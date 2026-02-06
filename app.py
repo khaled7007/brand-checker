@@ -482,68 +482,44 @@ elif uploaded_file and not st.session_state.design_type:
 
 # الشريط الجانبي
 with st.sidebar:
-    st.markdown("""
-    <div style='text-align: center; padding: 25px 0;'>
-        <h2 style='color: #cd9e2b !important; margin: 0; font-size: 2em;'>ℹ️ عن الأداة</h2>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("## ℹ️ عن الأداة")
     
-    st.markdown("""
-    <div style='background: linear-gradient(135deg, rgba(205,158,43,0.15) 0%, rgba(218,169,41,0.2) 100%);
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #cd9e2b;
-                line-height: 1.9;'>
-        <p style='margin: 0; font-size: 1.05em;'>
-        <strong style='color: #cd9e2b; font-size: 1.3em;'>مدقق الهوية البصرية المطوّر</strong><br><br>
-        
-        أداة ذكية متقدمة تفحص التصاميم بدقة عالية للتأكد من التزامها بمعايير الهوية البصرية لشركة ذرى:<br><br>
-        
-        <strong style='color: #cd9e2b;'>✓</strong> فحص دقيق للألوان المعتمدة<br>
-        <strong style='color: #cd9e2b;'>✓</strong> تحليل متقدم للخطوط<br>
-        <strong style='color: #cd9e2b;'>✓</strong> فحص استخدام الشعار<br>
-        <strong style='color: #cd9e2b;'>✓</strong> تقييم شامل للتصميم<br>
-        <strong style='color: #cd9e2b;'>✓</strong> اقتراحات تحسين احترافية<br><br>
-        
-        <strong style='color: #002825;'>قواعد الخطوط:</strong><br>
-        • <strong>الداخلي:</strong> TheSans فقط<br>
-        • <strong>الخارجي:</strong> Myriad Arabic فقط
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("""
+**مدقق الهوية البصرية المطوّر**
+
+أداة ذكية متقدمة تفحص التصاميم بدقة عالية للتأكد من التزامها بمعايير الهوية البصرية لشركة ذرى.
+    """)
     
-    st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
+    st.markdown("### ✨ المميزات")
+    st.success("""
+✓ فحص دقيق للألوان المعتمدة
+✓ تحليل متقدم للخطوط  
+✓ فحص استخدام الشعار
+✓ تقييم شامل للتصميم
+✓ اقتراحات تحسين احترافية
+    """)
+    
+    st.markdown("### 📝 قواعد الخطوط")
+    st.warning("""
+**الداخلي:** TheSans فقط  
+**الخارجي:** Myriad Arabic فقط
+    """)
+    
+    st.markdown("---")
     
     st.markdown("### 📊 الإحصائيات")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("الفحوصات اليومية", "1,500", delta="مجاني")
+        st.metric("الفحوصات اليومية", "1,500")
     with col2:
-        st.metric("الدقة", "95%+", delta="عالية")
+        st.metric("الدقة", "95%+")
     
-    st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
+    st.markdown("---")
     
-    st.markdown("""
-    <div style='text-align: center; padding: 20px;'>
-        <p style='font-size: 0.95em; opacity: 0.9; line-height: 1.6;'>
-        مدعوم بـ<br>
-        <strong style='color: #cd9e2b; font-size: 1.2em;'>Google Gemini AI</strong><br>
-        <span style='font-size: 0.85em;'>نموذج Gemini 1.5 Flash</span>
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.caption("🤖 مدعوم بـ Google Gemini AI")
+    st.caption("⚡ نموذج Gemini 3 Flash")
 
 # Footer
-st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
-st.markdown("""
-<div style='text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(0,40,37,0.8) 0%, rgba(40,83,86,0.8) 100%);
-            border-radius: 15px;
-            border: 2px solid #cd9e2b;'>
-    <p style='color: #e6b88d; font-size: 1em; margin: 0; line-height: 1.8;'>
-    <strong style='color: #cd9e2b;'>© 2026 شركة ذرى للتمويل الجماعي</strong><br>
-    جميع الحقوق محفوظة | مدعوم بالذكاء الاصطناعي
-    </p>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("---")
+st.caption("© 2026 شركة ذرى للتمويل الجماعي | جميع الحقوق محفوظة")
+st.caption("مدعوم بالذكاء الاصطناعي 🤖")
