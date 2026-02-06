@@ -218,7 +218,15 @@ st.markdown("""
 }
 
 .stApp {
-    background: #0a0e27;
+    background: linear-gradient(135deg, #002825 0%, #0a1a1d 25%, #1a3a41 50%, #0f2b2e 75%, #002825 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .main .block-container {
@@ -228,12 +236,13 @@ st.markdown("""
 
 /* بطاقة Header */
 .header-card {
-    background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
-    border: 1px solid rgba(205, 158, 43, 0.3);
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.9) 0%, rgba(26, 58, 65, 0.9) 100%);
+    border: 2px solid rgba(205, 158, 43, 0.5);
     border-radius: 20px;
     padding: 2rem;
     text-align: center;
     margin-bottom: 1.5rem;
+    box-shadow: 0 10px 40px rgba(205, 158, 43, 0.2);
 }
 
 .header-title {
@@ -259,24 +268,27 @@ st.markdown("""
 }
 
 .card {
-    background: #1a2332;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.6) 0%, rgba(26, 58, 65, 0.6) 100%);
+    border: 1px solid rgba(86, 180, 182, 0.3);
     border-radius: 16px;
     padding: 1.5rem;
     margin: 1rem 0;
+    backdrop-filter: blur(10px);
 }
 
 /* رفع الملفات */
 [data-testid="stFileUploader"] {
-    background: #1a2332 !important;
-    border: 2px dashed rgba(205, 158, 43, 0.5) !important;
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.5) 0%, rgba(26, 58, 65, 0.5) 100%) !important;
+    border: 2px dashed rgba(205, 158, 43, 0.6) !important;
     border-radius: 16px !important;
     padding: 2rem 1rem !important;
+    backdrop-filter: blur(10px);
 }
 
 [data-testid="stFileUploader"]:hover {
     border-color: #cd9e2b !important;
-    background: #1f2937 !important;
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.7) 0%, rgba(26, 58, 65, 0.7) 100%) !important;
+    box-shadow: 0 8px 25px rgba(205, 158, 43, 0.3);
 }
 
 [data-testid="stFileUploader"] * {
@@ -309,20 +321,23 @@ img {
 
 /* الرسائل */
 .stAlert {
-    background: #1a2332 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.7) 0%, rgba(26, 58, 65, 0.7) 100%) !important;
+    border: 1px solid rgba(86, 180, 182, 0.4) !important;
     border-radius: 12px !important;
     color: #e2e8f0 !important;
+    backdrop-filter: blur(10px);
 }
 
 /* بطاقة النتيجة */
 .result-card {
-    background: linear-gradient(135deg, #1a2332 0%, #111827 100%);
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.8) 0%, rgba(26, 58, 65, 0.8) 100%);
     border-radius: 20px;
     padding: 2rem;
     text-align: center;
     margin: 2rem 0;
     border: 2px solid;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
 .result-icon {
@@ -338,20 +353,27 @@ img {
 
 /* التقرير */
 .report-card {
-    background: #1a2332;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.6) 0%, rgba(26, 58, 65, 0.6) 100%);
+    border: 1px solid rgba(86, 180, 182, 0.3);
     border-radius: 16px;
     padding: 1.5rem;
     color: #e2e8f0;
     line-height: 1.8;
+    backdrop-filter: blur(10px);
 }
 
 /* Expander */
 .streamlit-expanderHeader {
-    background: #1a2332 !important;
+    background: linear-gradient(135deg, rgba(0, 40, 37, 0.7) 0%, rgba(26, 58, 65, 0.7) 100%) !important;
+    border: 1px solid rgba(205, 158, 43, 0.3) !important;
     border-radius: 12px !important;
     color: #e2e8f0 !important;
     font-weight: 600 !important;
+    backdrop-filter: blur(10px);
+}
+
+.streamlit-expanderHeader:hover {
+    border-color: rgba(205, 158, 43, 0.6) !important;
 }
 
 /* بدون sidebar */
