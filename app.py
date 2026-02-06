@@ -7,7 +7,7 @@ import os
 
 # إعداد Gemini API
 genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-3-flash-preview')
 
 # قواعد الهوية البصرية المحسّنة
 BRAND_GUIDELINES = """
