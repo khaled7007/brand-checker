@@ -124,13 +124,36 @@ BRAND_GUIDELINES = """
 """
 
 def pdf_to_image(pdf_file):
+    """تحويل كل صفحات PDF إلى صورة واحدة"""
     try:
         pdf_document = fitz.open(stream=pdf_file.read(), filetype="pdf")
-        first_page = pdf_document[0]
-        pix = first_page.get_pixmap(matrix=fitz.Matrix(3, 3))  # دقة أعلى
-        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        images = []
+        
+        # تحويل كل صفحة لصورة
+        for page_num in range(len(pdf_document)):
+            page = pdf_document[page_num]
+            pix = page.get_pixmap(matrix=fitz.Matrix(3, 3))
+            img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+            images.append(img)
+        
         pdf_document.close()
-        return img
+        
+        # دمج الصور عموديًا إذا كان فيه أكثر من صفحة
+        if len(images) > 1:
+            total_height = sum(img.height for img in images)
+            max_width = max(img.width for img in images)
+            
+            combined = Image.new('RGB', (max_width, total_height), 'white')
+            y_offset = 0
+            
+            for img in images:
+                combined.paste(img, (0, y_offset))
+                y_offset += img.height
+            
+            return combined
+        else:
+            return images[0] if images else None
+            
     except Exception as e:
         st.error(f"خطأ في قراءة ملف PDF: {str(e)}")
         return None
@@ -188,18 +211,33 @@ h1{
 
 /* المحتوى الرئيسي - نص داكن على خلفية فاتحة */
 .main .block-container{
-    padding: 2rem 3rem;
+    padding: 1rem !important;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .main .block-container{
+        padding: 2rem 3rem !important;
+    }
 }
 
 /* البطاقات والمحتوى */
 .stMarkdown{
     background: white;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    margin: 15px 0;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin: 10px 0;
     border: 2px solid #cd9e2b;
     color: #002825 !important;
+}
+
+@media (min-width: 768px) {
+    .stMarkdown{
+        padding: 25px;
+        border-radius: 20px;
+        margin: 15px 0;
+    }
 }
 
 /* النصوص داخل البطاقات */
@@ -210,10 +248,19 @@ h1{
 /* رفع الملفات */
 [data-testid="stFileUploader"]{
     background: white !important;
-    border: 3px dashed #cd9e2b;
-    border-radius: 20px;
-    padding: 40px;
+    border: 2px dashed #cd9e2b;
+    border-radius: 15px;
+    padding: 20px;
     text-align: center;
+    margin: 10px 0;
+}
+
+@media (min-width: 768px) {
+    [data-testid="stFileUploader"]{
+        border-width: 3px;
+        border-radius: 20px;
+        padding: 40px;
+    }
 }
 
 [data-testid="stFileUploader"] *{
@@ -231,12 +278,21 @@ h1{
     color: white !important;
     font-weight: bold;
     border: none;
-    border-radius: 15px;
-    padding: 15px 30px;
-    font-size: 18px;
-    box-shadow: 0 6px 12px rgba(205, 158, 43, 0.4);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(205, 158, 43, 0.3);
     transition: all 0.3s ease;
     width: 100%;
+}
+
+@media (min-width: 768px) {
+    .stButton>button{
+        border-radius: 15px;
+        padding: 15px 30px;
+        font-size: 18px;
+        box-shadow: 0 6px 12px rgba(205, 158, 43, 0.4);
+    }
 }
 
 .stButton>button:hover{
@@ -307,10 +363,31 @@ img{
 
 # الهيدر
 st.markdown("""
-<div style='text-align: center; padding: 30px 0; background: linear-gradient(135deg, rgba(0,40,37,0.9) 0%, rgba(40,83,86,0.9) 100%); border-radius: 20px; margin-bottom: 30px; border: 3px solid #cd9e2b;'>
-    <h1 style='margin: 0; font-size: 3em; color: #cd9e2b; text-shadow: 3px 3px 8px rgba(0,0,0,0.7);'>🎨 مدقق الهوية البصرية</h1>
-    <p style='color: #e6b88d; font-size: 1.4em; margin: 15px 0 5px 0; font-weight: 600;'>شركة ذرى للتمويل الجماعي</p>
-    <p style='color: #f1dece; font-size: 1em; margin: 0;'>تحليل ذكي شامل للتصاميم مع تقييم احترافي</p>
+<div style='text-align: center; 
+            padding: 20px 10px; 
+            background: linear-gradient(135deg, rgba(0,40,37,0.95) 0%, rgba(40,83,86,0.95) 100%); 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            border: 3px solid #cd9e2b;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);'>
+    <h1 style='margin: 0; 
+               font-size: clamp(1.5em, 5vw, 2.5em); 
+               color: #cd9e2b; 
+               text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+               line-height: 1.2;'>
+        🎨 مدقق الهوية البصرية
+    </h1>
+    <p style='color: #e6b88d; 
+              font-size: clamp(1em, 3vw, 1.3em); 
+              margin: 10px 0 5px 0; 
+              font-weight: 600;'>
+        شركة ذرى للتمويل الجماعي
+    </p>
+    <p style='color: #f1dece; 
+              font-size: clamp(0.85em, 2.5vw, 1em); 
+              margin: 5px 0 0 0;'>
+        تحليل ذكي شامل للتصاميم
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -343,7 +420,8 @@ if st.session_state.design_type:
 # معالجة الملف
 if uploaded_file is not None and st.session_state.design_type:
     if uploaded_file.type == "application/pdf":
-        st.info("📄 ملف PDF - سيتم فحص الصفحة الأولى بدقة عالية")
+        page_count = len(fitz.open(stream=uploaded_file.getvalue(), filetype="pdf"))
+        st.info(f"📄 ملف PDF - سيتم فحص جميع الصفحات ({page_count} صفحة)")
         image = pdf_to_image(uploaded_file)
         if image is None:
             st.stop()
