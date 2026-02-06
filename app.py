@@ -204,7 +204,12 @@ def get_status_emoji(result_text):
     else:
         return "❌", "غير مطابق", "#9fa144"
 
-st.set_page_config(page_title="مدقق الهوية البصرية - ذرى", page_icon="🎨", layout="centered")
+st.set_page_config(
+    page_title="مدقق الهوية البصرية - ذرى", 
+    page_icon="🎨", 
+    layout="centered",
+    initial_sidebar_state="collapsed"  # مخفي افتراضيًا على الجوال
+)
 
 # CSS محسّن بهوية ذرى
 st.markdown("""<style>
@@ -341,7 +346,7 @@ h3{
 /* Sidebar */
 [data-testid="stSidebar"]{
     background: linear-gradient(180deg, #002825 0%, #285356 50%, #1a3a41 100%);
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
 }
 
 [data-testid="stSidebar"] *{
@@ -360,6 +365,17 @@ h3{
     border-radius: 15px;
     border: 2px solid #cd9e2b;
     text-align: center;
+}
+
+/* إصلاح تداخل Sidebar على الجوال */
+@media (max-width: 768px) {
+    [data-testid="stSidebar"][aria-expanded="true"]{
+        width: 80vw !important;
+    }
+    
+    [data-testid="stSidebarNav"]{
+        padding-top: 3rem;
+    }
 }
 
 /* الأعمدة */
