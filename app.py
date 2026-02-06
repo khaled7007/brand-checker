@@ -129,10 +129,19 @@ def pdf_to_image(pdf_file):
         pdf_document = fitz.open(stream=pdf_file.read(), filetype="pdf")
         images = []
         
+        # تحديد دقة مناسبة حسب عدد الصفحات
+        page_count = len(pdf_document)
+        if page_count > 10:
+            zoom = 1.5  # دقة أقل للملفات الكبيرة
+        elif page_count > 5:
+            zoom = 2.0
+        else:
+            zoom = 3.0  # دقة عالية للملفات الصغيرة
+        
         # تحويل كل صفحة لصورة
-        for page_num in range(len(pdf_document)):
+        for page_num in range(min(page_count, 20)):  # حد أقصى 20 صفحة
             page = pdf_document[page_num]
-            pix = page.get_pixmap(matrix=fitz.Matrix(3, 3))
+            pix = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom))
             img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
             images.append(img)
         
@@ -140,8 +149,17 @@ def pdf_to_image(pdf_file):
         
         # دمج الصور عموديًا إذا كان فيه أكثر من صفحة
         if len(images) > 1:
+            # حساب الأبعاد
             total_height = sum(img.height for img in images)
             max_width = max(img.width for img in images)
+            
+            # التحقق من الحد الأقصى
+            if total_height > 15000:
+                # تصغير الصور لتناسب الحد
+                scale = 15000 / total_height
+                images = [img.resize((int(img.width * scale), int(img.height * scale)), Image.Resampling.LANCZOS) for img in images]
+                total_height = sum(img.height for img in images)
+                max_width = max(img.width for img in images)
             
             combined = Image.new('RGB', (max_width, total_height), 'white')
             y_offset = 0
@@ -421,7 +439,13 @@ if st.session_state.design_type:
 if uploaded_file is not None and st.session_state.design_type:
     if uploaded_file.type == "application/pdf":
         page_count = len(fitz.open(stream=uploaded_file.getvalue(), filetype="pdf"))
-        st.info(f"📄 ملف PDF - سيتم فحص جميع الصفحات ({page_count} صفحة)")
+        if page_count > 20:
+            st.warning(f"⚠️ الملف يحتوي على {page_count} صفحة - سيتم فحص أول 20 صفحة فقط")
+            page_count = 20
+        elif page_count > 10:
+            st.info(f"📄 ملف PDF كبير ({page_count} صفحة) - سيتم تقليل الدقة للتحليل الشامل")
+        else:
+            st.info(f"📄 ملف PDF - سيتم فحص جميع الصفحات ({page_count} صفحة)")
         image = pdf_to_image(uploaded_file)
         if image is None:
             st.stop()
