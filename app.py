@@ -207,8 +207,8 @@ def get_status_emoji(result_text):
 st.set_page_config(
     page_title="مدقق الهوية البصرية - ذرى", 
     page_icon="🎨", 
-    layout="centered",
-    initial_sidebar_state="collapsed"  # مخفي افتراضيًا على الجوال
+    layout="wide",  # تصميم عريض
+    initial_sidebar_state="auto"  # تلقائي
 )
 
 # CSS محسّن بهوية ذرى
@@ -235,7 +235,8 @@ h1{
 /* المحتوى الرئيسي - نص داكن على خلفية فاتحة */
 .main .block-container{
     padding: 1rem !important;
-    max-width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 @media (min-width: 768px) {
@@ -346,35 +347,70 @@ h3{
 /* Sidebar */
 [data-testid="stSidebar"]{
     background: linear-gradient(180deg, #002825 0%, #285356 50%, #1a3a41 100%);
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.5rem;
+    max-width: 280px;
+}
+
+@media (min-width: 768px) {
+    [data-testid="stSidebar"]{
+        padding: 1.5rem 1rem;
+    }
 }
 
 [data-testid="stSidebar"] *{
     color: white !important;
+    font-size: 0.9em;
 }
 
-[data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3{
+[data-testid="stSidebar"] h2{
     color: #cd9e2b !important;
+    font-size: 1.3em !important;
     border-bottom: 2px solid #cd9e2b;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+[data-testid="stSidebar"] h3{
+    color: #cd9e2b !important;
+    font-size: 1.1em !important;
+    border-bottom: 2px solid #cd9e2b;
+    padding-bottom: 5px;
+    margin: 15px 0 8px 0;
 }
 
 [data-testid="stSidebar"] .stMetric{
     background: rgba(205, 158, 43, 0.2);
-    padding: 15px;
-    border-radius: 15px;
+    padding: 10px;
+    border-radius: 10px;
     border: 2px solid #cd9e2b;
     text-align: center;
 }
 
-/* إصلاح تداخل Sidebar على الجوال */
+[data-testid="stSidebar"] .stMetric label{
+    font-size: 0.8em !important;
+}
+
+[data-testid="stSidebar"] .stMetric [data-testid="stMetricValue"]{
+    font-size: 1.2em !important;
+}
+
+/* إصلاح Sidebar على الجوال */
 @media (max-width: 768px) {
+    [data-testid="stSidebar"]{
+        max-width: 70vw !important;
+    }
+    
     [data-testid="stSidebar"][aria-expanded="true"]{
-        width: 80vw !important;
+        transform: translateX(0);
     }
     
     [data-testid="stSidebarNav"]{
-        padding-top: 3rem;
+        padding-top: 2rem;
+    }
+    
+    /* المحتوى عندما Sidebar مفتوح */
+    [data-testid="stSidebar"][aria-expanded="true"] ~ .main{
+        margin-left: 0 !important;
     }
 }
 
@@ -525,39 +561,34 @@ with st.sidebar:
     st.markdown("## ℹ️ عن الأداة")
     
     st.info("""
-**مدقق الهوية البصرية المطوّر**
+**مدقق الهوية البصرية**
 
-أداة ذكية متقدمة تفحص التصاميم بدقة عالية للتأكد من التزامها بمعايير الهوية البصرية لشركة ذرى.
+فحص ذكي للتصاميم وفق معايير هوية ذرى.
     """)
     
     st.markdown("### ✨ المميزات")
     st.success("""
-✓ فحص دقيق للألوان المعتمدة
-✓ تحليل متقدم للخطوط  
-✓ فحص استخدام الشعار
-✓ تقييم شامل للتصميم
-✓ اقتراحات تحسين احترافية
+✓ فحص الألوان  
+✓ تحليل الخطوط  
+✓ فحص الشعار  
+✓ تقييم شامل  
     """)
     
-    st.markdown("### 📝 قواعد الخطوط")
+    st.markdown("### 📝 الخطوط")
     st.warning("""
-**الداخلي:** TheSans فقط  
-**الخارجي:** Myriad Arabic فقط
+**داخلي:** TheSans  
+**خارجي:** Myriad Arabic
     """)
     
     st.markdown("---")
     
-    st.markdown("### 📊 الإحصائيات")
     col1, col2 = st.columns(2)
     with col1:
-        st.metric("الفحوصات اليومية", "1,500")
+        st.metric("يوميًا", "1.5K")
     with col2:
-        st.metric("الدقة", "95%+")
+        st.metric("دقة", "95%")
     
-    st.markdown("---")
-    
-    st.caption("🤖 مدعوم بـ Google Gemini AI")
-    st.caption("⚡ نموذج Gemini 3 Flash")
+    st.caption("🤖 Gemini AI")
 
 # Footer
 st.markdown("---")
